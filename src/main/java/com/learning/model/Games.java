@@ -28,6 +28,9 @@ public class Games implements Serializable {
     @Column(name = "seller_id")
     private Long seller_id;
 
+    @Column(name = "image_url")
+    private String imageUrl;
+
    /*@ManyToOne
     @JoinColumn(name = "seller_id", insertable = false, updatable = false)
     private Sellers seller;*/

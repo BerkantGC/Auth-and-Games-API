@@ -6,9 +6,7 @@ import com.learning.service.SellersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,6 +19,13 @@ public class SellerController {
     public ResponseEntity<SellersDto> save(@RequestBody SellersDto sellersDto)
     {
         return ResponseEntity.ok(sellersService.save(sellersDto));
+    }
+
+    @PutMapping("/sellers")
+    public ResponseEntity<List<Sellers>> update(@RequestBody Sellers sellers)
+    {
+        System.out.println(sellers);
+        return ResponseEntity.ok(sellersService.update(sellers));
     }
 
     @GetMapping("/sellers")
