@@ -35,7 +35,8 @@ public class SellersService {
                 Games games = new Games();
                 games.setGameName(item.getGameName());
                 games.setGameYear(item.getGameYear());
-                games.setSeller_id(sellersDto.getId());
+                games.setSeller_id(sellerDb.getId());
+                games.setImageUrl(item.getImageUrl());
                 gamesList.add(games);
             });
             gamesRepository.saveAll(gamesList);
@@ -43,17 +44,38 @@ public class SellersService {
             return sellersDto;
         }
 
+        public List<Sellers> update(Sellers sellers)
+        {
+            List<Sellers> sellersList = sellersRepository.findAll();
+            sellersList.forEach(item->{
+                if (item.getSellerName().equals(sellers.getSellerName())) {
+                    List<Games> gamesList = new ArrayList<>();
+
+                    sellers.getGames().forEach(it->{
+                        Games games = new Games();
+                        games.setGameName(it.getGameName());
+                        games.setGameYear(it.getGameYear());
+                        games.setSeller_id(item.getId());
+                        games.setImageUrl(it.getImageUrl());
+                        gamesList.add(games);
+                    });
+                    gamesRepository.saveAll(gamesList);
+                }
+            });
+
+            return sellersList;
+        }
+
         public List<SellersDto> getAll()
         {
             List<Sellers> sellersList = sellersRepository.findAll();
             List<SellersDto> sellersDtoList = new ArrayList<>();
-            List<Games> gamesList = new ArrayList<>();
 
             sellersList.forEach(item->{
                 SellersDto sellersDto = new SellersDto();
                 sellersDto.setSellerName(item.getSellerName());
                 sellersDto.setId(item.getId());
-                sellersDto.setGames(item.getGames());
+                sellersDto.setGames(item.getGames().stream().collect(Collectors.toList()));
                 sellersDtoList.add(sellersDto);
             });
             return sellersDtoList;
